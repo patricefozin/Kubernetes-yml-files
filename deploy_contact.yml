@@ -1,0 +1,26 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: sample-web-app
+spec:
+  selector:
+    matchLabels:
+      app: sample-web-app
+  replicas: 3 # tells deployment to run 2 pods matching the template
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+
+  template:
+    metadata:
+      labels:
+        app: sample-web-app
+    spec:
+      containers:
+      - name: sample-web-app
+        image: patricefozin/web-app-0101:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
